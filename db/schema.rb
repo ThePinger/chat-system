@@ -12,17 +12,17 @@
 
 ActiveRecord::Schema[7.1].define(version: 2024_05_11_122515) do
   create_table "applications", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name"
-    t.string "token"
-    t.integer "chats_count", default: 0
+    t.string "name", null: false
+    t.string "token", null: false
+    t.integer "chats_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["token"], name: "index_applications_on_token", unique: true
   end
 
   create_table "chats", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "num"
-    t.integer "messages_count", default: 0
+    t.integer "num", null: false
+    t.integer "messages_count", default: 0, null: false
     t.bigint "application_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -31,8 +31,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_11_122515) do
   end
 
   create_table "messages", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "num"
-    t.text "content"
+    t.integer "num", null: false
+    t.text "content", null: false
     t.bigint "chat_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
