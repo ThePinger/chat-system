@@ -7,4 +7,12 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  namespace :api do
+      resources :applications, param: :token do
+            resources :chats, param: :num do
+                resources :messages, param: :num
+            end
+      end
+  end
 end

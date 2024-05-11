@@ -46,6 +46,7 @@ group :development do
 end
 
 
+gem "cuid", "~> 1.0"
 
 gem 'solargraph', group: :development
 gem 'solargraph-rails', group: :development
