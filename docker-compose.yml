@@ -1,0 +1,33 @@
+name: chat-system
+
+services:
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: my-secret-password # Replace with a strong password
+      MYSQL_DATABASE: chat-system # Replace with your desired database name
+    volumes:
+      - mysql-data:/var/lib/mysql # Persistent volume for data
+    ports:
+      - 3306:3306 # Expose MySQL port
+
+  redis:
+    image: redis
+    volumes:
+      - redis-data:/data # Persistent volume for data
+    ports:
+      - 6379:6379 # Expose Redis port
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+    environment:
+      discovery.type: single-node # Configure as a single-node cluster
+    volumes:
+      - elasticsearch-data:/var/lib/elasticsearch # Persistent volume for data
+    ports:
+      - 9200:9200 # Expose Elasticsearch port
+
+volumes:
+  mysql-data: # Define persistent volume for MySQL data
+  redis-data: # Define persistent volume for Redis data
+  elasticsearch-data: # Define persistent volume for Elasticsearch data
