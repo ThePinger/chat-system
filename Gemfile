@@ -45,3 +45,7 @@ group :development do
   # gem "spring"
 end
 
+
+
+gem 'solargraph', group: :development
+gem 'solargraph-rails', group: :development
