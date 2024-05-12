@@ -56,3 +56,5 @@ gem "bunny", "~> 2.22"
 gem "redis", "~> 5.2"
 
 gem "redlock", "~> 2.0"
+
+gem "whenever", "~> 1.0"
