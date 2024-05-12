@@ -9,7 +9,12 @@ class Api::MessagesController < ApplicationController
             return render json: { error: "chat not found" }, status: :not_found
         end
 
-        messages = chat.messages
+        if params[:content].present?
+            messages = Message.search(params[:content], chat.id)
+            messages = messages[2][1].map { |message| message["_source"] }
+        else
+            messages = chat.messages
+        end
         render json: { messages: messages }, except: EXCLUDED_FIELDS, status: :ok
     end
 
