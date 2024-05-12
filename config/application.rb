@@ -28,5 +28,8 @@ module ChatSystem
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    # Use Redis for caching
+    config.cache_store = :redis_cache_store, 'redis://127.0.0.1:6379'
   end
 end
