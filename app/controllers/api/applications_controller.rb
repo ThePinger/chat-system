@@ -20,7 +20,7 @@ class Api::ApplicationsController < ApplicationController
 
     # GET /api/applications/:token
     def show
-        application = Application.find_by(token: params[:token])
+        application = Application.get_application_by_token(params[:token])
         if application.nil?
             return render json: { error: "application not found" }, status: :not_found
         end
@@ -29,7 +29,7 @@ class Api::ApplicationsController < ApplicationController
 
     # PUT /api/applications/:token
     def update
-        application = Application.find_by(token: params[:token])
+        application = Application.get_application_by_token(params[:token])
         if application.nil?
             return render json: { error: "application not found" }, status: :not_found
         end
@@ -44,7 +44,7 @@ class Api::ApplicationsController < ApplicationController
 
     # DELETE /api/applications/:token
     def destroy
-        application = Application.find_by(token: params[:token])
+        application = Application.get_application_by_token(params[:token])
         if application.nil?
             return render json: { error: "application not found" }, status: :not_found
         end
