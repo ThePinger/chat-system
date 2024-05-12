@@ -7,7 +7,7 @@ task :messages_worker => :environment do
     messages_queue = channel.queue('messages_queue', durable: true)
     messages_queue.bind(messages_exchange, routing_key: 'messages')
 
-    puts ' [*] Waiting for chats. To exit press CTRL+C'
+    puts ' [*] Waiting for messages. To exit press CTRL+C'
 
     begin
         messages_queue.subscribe(manual_ack: true, block: true) do |delivery_info, _properties, body|
