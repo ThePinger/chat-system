@@ -4,7 +4,7 @@ class Api::ChatsController < ApplicationController
 
     # GET /api/applications/:application_token/chats
     def index
-        application = Application.find_by(token: params[:application_token])
+        application = Application.get_application_by_token(params[:application_token])
         if application.nil?
             return render json: { error: "application not found" }, status: :not_found
         end
@@ -15,22 +15,34 @@ class Api::ChatsController < ApplicationController
 
     # POST /api/applications/:application_token/chats
     def create
-        application = Application.find_by(token: params[:application_token])
+        application = Application.get_application_by_token(params[:application_token])
         if application.nil?
             return render json: { error: "application not found" }, status: :not_found
         end
 
         chat = Chat.new(application_id: application.id)
-        if chat.save
-            render json: chat, except: EXCULDED_FIELDS, status: :created
+        if chat.valid?
+            # Generate the chat num within the application
+            chat.num = Application.increment_chats_count_by_token(params[:application_token])
+
+            if chat.num.nil?
+                return render json: { error: "failed to create chat" }, status: :internal_server_error
+            end
+
+            # Push the chat to the RabbitMQ
+            publisher = Publisher.new("chats")
+            publisher.publish(chat)
+            publisher.close
+
+            return render json: chat, except: EXCULDED_FIELDS, status: :created
         else
-            render json: chat.errors, status: :bad_request
+            return render json: chat.errors, status: :bad_request
         end
     end
 
     # GET /api/applications/:application_token/chats/:num
     def show
-        application = Application.find_by(token: params[:application_token])
+        application = Application.get_application_by_token(params[:application_token])
         if application.nil?
             return render json: { error: "application not found" }, status: :not_found
         end
