@@ -27,7 +27,16 @@ services:
     ports:
       - 9200:9200 # Expose Elasticsearch port
 
+  rabbitmq:
+    image: rabbitmq
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq # Persistent volume for data
+    ports:
+      - 5672:5672 # Expose RabbitMQ port
+      - 15672:15672 # Expose RabbitMQ management port
+
 volumes:
   mysql-data: # Define persistent volume for MySQL data
   redis-data: # Define persistent volume for Redis data
   elasticsearch-data: # Define persistent volume for Elasticsearch data
+  rabbitmq-data: # Define persistent volume for RabbitMQ data
