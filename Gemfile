@@ -50,3 +50,9 @@ gem "cuid", "~> 1.0"
 
 gem 'solargraph', group: :development
 gem 'solargraph-rails', group: :development
+
+gem "bunny", "~> 2.22"
+
+gem "redis", "~> 5.2"
+
+gem "redlock", "~> 2.0"
