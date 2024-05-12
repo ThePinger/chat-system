@@ -58,3 +58,9 @@ gem "redis", "~> 5.2"
 gem "redlock", "~> 2.0"
 
 gem "whenever", "~> 1.0"
+
+gem "elasticsearch-model", "~> 7.2"
+
+gem "elasticsearch-rails", "~> 7.2"
+
+gem "elasticsearch-persistence", "~> 7.2"
