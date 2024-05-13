@@ -1,24 +1,8 @@
-# README
+# Chat System
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Run the project
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- Install [Docker](https://www.docker.com/).
+- In the terminal window run `docker-compose run web rake db:migrate`.
+- Then run `docker compose up`.
+- Open http://localhost:3000 to make sure web server is up and running.
