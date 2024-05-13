@@ -30,6 +30,6 @@ module ChatSystem
     config.api_only = true
 
     # Use Redis for caching
-    config.cache_store = :redis_cache_store, 'redis://127.0.0.1:6379'
+    config.cache_store = :redis_cache_store, ENV["REDIS_URL"] || 'redis://redis:6379'
   end
 end

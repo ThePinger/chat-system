@@ -36,7 +36,7 @@ class Application < ApplicationRecord
     def self.increment_chats_count_by_token(token)
         key = "application_#{token}_chats_count"
         # Lock the cache key using redlock
-        lock_manager = Redlock::Client.new(["redis://127.0.0.1:6379"], {
+        lock_manager = Redlock::Client.new([ENV["REDIS_URL"] || 'redis://redis:6379'], {
             retry_count: 3,
             retry_delay: 200
         })

@@ -1,6 +1,62 @@
 name: chat-system
 
 services:
+  chats-worker:
+    build: .
+    command: rails chats_worker
+    volumes:
+      - .:/chat-system
+    restart: on-failure
+    depends_on:
+      - mysql
+      - redis
+      - rabbitmq
+      - elasticsearch
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      REDIS_URL: redis://redis:6379
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE_PASSWORD: my-secret-password
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+
+  messages-worker:
+    build: .
+    command: rails messages_worker
+    volumes:
+      - .:/chat-system
+    restart: on-failure
+    depends_on:
+      - mysql
+      - redis
+      - rabbitmq
+      - elasticsearch
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      REDIS_URL: redis://redis:6379
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE_PASSWORD: my-secret-password
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+
+  web:
+    build: .
+    command: /bin/sh -c "cron -f & bin/rails server -b 0.0.0.0 & bundle exec whenever --update-crontab --set environment=development & wait"
+    volumes:
+      - .:/chat-system
+    ports:
+      - 3000:3000
+    restart: on-failure
+    depends_on:
+      - mysql
+      - redis
+      - rabbitmq
+      - elasticsearch
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      REDIS_URL: redis://redis:6379
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE_PASSWORD: my-secret-password
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+
   mysql:
     image: mysql
     environment:

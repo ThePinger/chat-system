@@ -4,7 +4,7 @@ class Publisher
             raise "Invalid exchange type"
         end
         @type = type
-        @connection = Bunny.new
+        @connection = Bunny.new(hostname: ENV['RABBITMQ_HOST'] || 'rabbitmq')
         @connection.start
         @channel = @connection.create_channel
         @exchange = @channel.direct(@type, durable: true)

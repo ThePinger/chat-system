@@ -1,6 +1,6 @@
 
 task :chats_worker => :environment do
-    connection = Bunny.new
+    connection = Bunny.new(hostname: ENV['RABBITMQ_HOST'] || 'rabbitmq')
     connection.start
     channel = connection.create_channel
     chats_exchange = channel.direct('chats', durable: true)
